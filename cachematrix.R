@@ -4,10 +4,11 @@
 ## Parameter: a matrix x
 ## Methods: set, get, setInverse, getInverse
 makeCacheMatrix <- function(x = matrix()) {
-        ## Inizialites the variable
+        ## Inizialites the local variable
         inv <- NULL
         
-        ## superoperator caches in the global enviroment
+        ## Changes the value of x globally
+        ## Inizialites globally the variable inv
         set <- function(y) {
                 x <<- y         
                 inv <<- NULL
@@ -22,6 +23,7 @@ makeCacheMatrix <- function(x = matrix()) {
         ## Returns the inverse matrix (cached)
         getInverse <- function() inv
         
+        ## Methods that you can use over the object
         list(set = set, get = get, setInverse = setInverse, getInverse = getInverse)
 }
 
@@ -35,7 +37,7 @@ cacheSolve <- function(x) {
         ## Returns the cached matrix
         inv <- x$getInverse()
         
-        ## Checks if we have a cached matrix and gets the value
+        ## Checks if we have an inverse cached matrix and gets the value (globally)
         if(!is.null(inv)) {
                 message("getting cached data")
                 return(inv)
@@ -44,11 +46,11 @@ cacheSolve <- function(x) {
         ## if we do not have a cached matrix
         ## Takes the original matrix
         data <- x$get()
-        ## Calculates the inverse of the matrix
+        ## Calculates the inverse of the matrix (only works with squuare matrix)
         inv <- solve(data)
         ## Sets the inverse matrix
         x$setInverse(inv)
         
-        ## Return a matrix that is the inverse of 'x'
+        ## Returns a matrix that is the inverse of 'x'
         inv
 }
